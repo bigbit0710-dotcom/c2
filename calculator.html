@@ -160,7 +160,6 @@
 
     button.equals {
       background: #27ae60;
-      grid-column: span 2;
     }
 
     button.equals:hover {
@@ -293,6 +292,7 @@
       <button type="button" data-digit="3">3</button>
       <button type="button" class="operator" data-action="add">+</button>
 
+      <button type="button" class="function" data-action="negate">±</button>
       <button type="button" data-digit="0">0</button>
       <button type="button" data-action="decimal">.</button>
       <button type="button" class="equals" data-action="equals">=</button>
@@ -412,14 +412,45 @@
 
     function appendDigit(digit) {
       if (shouldResetDisplay) {
-        currentValue = digit;
+        currentValue = digit === "." ? "0." : digit;
         shouldResetDisplay = false;
+      } else if (currentValue === "-") {
+        currentValue = digit === "." ? "-0." : "-" + digit;
       } else if (currentValue === "0" && digit !== ".") {
         currentValue = digit;
       } else if (digit === "." && currentValue.includes(".")) {
         return;
       } else {
         currentValue += digit;
+      }
+      updateDisplay(currentValue);
+    }
+
+    function toggleSign() {
+      if (currentValue === "Ошибка") {
+        currentValue = "-";
+        shouldResetDisplay = false;
+        updateDisplay("-");
+        return;
+      }
+
+      if (shouldResetDisplay) {
+        currentValue = "-";
+        shouldResetDisplay = false;
+        updateDisplay("-");
+        return;
+      }
+
+      if (currentValue === "0") {
+        currentValue = "-";
+        updateDisplay("-");
+        return;
+      }
+
+      if (currentValue.startsWith("-")) {
+        currentValue = currentValue.slice(1) || "0";
+      } else {
+        currentValue = "-" + currentValue;
       }
       updateDisplay(currentValue);
     }
@@ -512,6 +543,9 @@
           break;
         case "decimal":
           appendDigit(".");
+          break;
+        case "negate":
+          toggleSign();
           break;
         case "sqrt":
           squareRoot();
