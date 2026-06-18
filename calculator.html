@@ -260,6 +260,13 @@
 </head>
 <body data-theme="dark">
   <div class="app">
+  <aside class="history-panel">
+    <div class="history-header">
+      <h2>Журнал операций</h2>
+      <button type="button" class="history-clear" id="historyClear">Очистить</button>
+    </div>
+    <ul class="history-list" id="historyList"></ul>
+  </aside>
   <div class="calculator">
     <div class="header">
       <button type="button" class="theme-toggle" id="themeToggle" title="Сменить тему">☀️</button>
@@ -291,14 +298,6 @@
       <button type="button" class="equals" data-action="equals">=</button>
     </div>
   </div>
-
-  <aside class="history-panel">
-    <div class="history-header">
-      <h2>Журнал операций</h2>
-      <button type="button" class="history-clear" id="historyClear">Очистить</button>
-    </div>
-    <ul class="history-list" id="historyList"></ul>
-  </aside>
   </div>
 
   <script>
